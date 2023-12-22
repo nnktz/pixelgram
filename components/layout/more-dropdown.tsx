@@ -2,6 +2,7 @@
 
 import { Activity, Bookmark, ChevronLeft, LogOut, Menu, Moon, Settings, Sun } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { useTheme } from 'next-themes'
 
 import { cn } from '@/lib/utils'
 
@@ -15,7 +16,7 @@ import {
 } from '../ui/dropdown-menu'
 import { Label } from '../ui/label'
 import { Switch } from '../ui/switch'
-import { useTheme } from 'next-themes'
+import { signOut } from 'next-auth/react'
 
 export const MoreDropdown = () => {
   const { theme, setTheme } = useTheme()
@@ -85,7 +86,7 @@ export const MoreDropdown = () => {
               <p>Switch appearance</p>
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => {}} className="menuItem">
+            <DropdownMenuItem onClick={() => signOut()} className="menuItem">
               <LogOut size={20} />
               <p>Log out</p>
             </DropdownMenuItem>

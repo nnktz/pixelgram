@@ -2,9 +2,10 @@ import { NextAuthOptions } from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next'
+import NextAuth, { getServerSession } from 'next-auth/next'
 
 import prisma from '@/lib/prisma'
-import NextAuth, { getServerSession } from 'next-auth/next'
+import { removeAccents } from '@/lib/utils'
 
 export const config = {
   pages: {
@@ -51,7 +52,10 @@ export const config = {
             id: prismaUser.id,
           },
           data: {
-            username: prismaUser.name?.split(' ').join('').toLowerCase(),
+            username: removeAccents(prismaUser.name || '')
+              .split(' ')
+              .join('')
+              .toLowerCase(),
           },
         })
       }
