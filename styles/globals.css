@@ -60,6 +60,16 @@ body,
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer components {
+  .navLink {
+    @apply w-full space-x-2 !px-3 md:!my-1.5 md:!justify-start;
+  }
+
+  .menuItem {
+    @apply !m-1.5 flex !cursor-pointer items-center gap-x-2 !rounded-lg !px-4 !py-3.5 font-medium dark:hover:bg-[#3c3c3c];
   }
 }
