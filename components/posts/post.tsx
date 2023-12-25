@@ -9,6 +9,7 @@ import { Timestamp } from '../timestamp'
 import { PostOptions } from './post-options'
 import { Card } from '../ui/card'
 import { PostActions } from './post-actions'
+import { Comments } from '../comments'
 
 export const Post = async ({ post }: { post: PostWithExtras }) => {
   const session = await auth()
@@ -53,9 +54,9 @@ export const Post = async ({ post }: { post: PostWithExtras }) => {
 
           <p>{post.caption}</p>
         </div>
-
-        // <Comments postId={post.id} comments={post.comments} user={session.user}/>
       )}
+
+      <Comments postId={post.id} comments={post.comments} user={session.user} />
     </div>
   )
 }

@@ -1,8 +1,7 @@
-import { NextAuthOptions } from 'next-auth'
+import NextAuth, { getServerSession, type NextAuthOptions } from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next'
-import NextAuth, { getServerSession } from 'next-auth/next'
 
 import prisma from '@/lib/prisma'
 import { removeAccents } from '@/lib/utils'

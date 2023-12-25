@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+// POST
 const postSchema = z.object({
   id: z.string(),
   fileUrl: z.string().url(),
@@ -18,4 +19,27 @@ const bookmarkSchema = z.object({
   postId: z.string(),
 })
 
-export { createPost, updatePost, deletePost, postSchema, likeSchema, bookmarkSchema }
+// COMMENT
+const commentSchema = z.object({
+  id: z.string(),
+  body: z.string(),
+  postId: z.string(),
+})
+
+const createComment = commentSchema.omit({ id: true })
+const updateComment = commentSchema
+const deleteComment = commentSchema.pick({ id: true })
+
+// EXPORTS
+export {
+  createPost,
+  updatePost,
+  deletePost,
+  postSchema,
+  likeSchema,
+  bookmarkSchema,
+  commentSchema,
+  createComment,
+  updateComment,
+  deleteComment,
+}
