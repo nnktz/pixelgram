@@ -3,7 +3,10 @@
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
-import { createComment as createCommentSchema } from '@/lib/schemas'
+import {
+  createComment as createCommentSchema,
+  deleteComment as deleteCommentSchema,
+} from '@/lib/schemas'
 import { getUserId } from '@/lib/user-service'
 import prisma from '@/lib/prisma'
 
@@ -45,5 +48,38 @@ export const createComment = async (values: z.infer<typeof createCommentSchema>)
     return { message: 'Created comment successfully' }
   } catch (error) {
     return { message: 'Error. Failed to create comment' }
+  }
+}
+
+export const deleteComment = async (formData: FormData) => {
+  const userId = await getUserId()
+
+  const { id } = deleteCommentSchema.parse({
+    id: formData.get('id'),
+  })
+
+  const comment = await prisma.comment.findUnique({
+    where: {
+      id,
+      userId,
+    },
+  })
+
+  if (!comment) {
+    throw new Error('Comment not found')
+  }
+
+  try {
+    await prisma.comment.delete({
+      where: {
+        id,
+      },
+    })
+
+    revalidatePath('/dashboard')
+
+    return { message: 'Deleted comment successfully' }
+  } catch (error) {
+    return { message: 'Error. Failed to delete comment' }
   }
 }

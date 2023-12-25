@@ -17,10 +17,9 @@ export const Posts = async () => {
 export const PostsSkeleton = () => {
   return (
     <>
-      <PostSkeleton />
-      <PostSkeleton />
-      <PostSkeleton />
-      <PostSkeleton />
+      {[...Array(4)].map((_, i) => (
+        <PostSkeleton key={i} />
+      ))}
     </>
   )
 }

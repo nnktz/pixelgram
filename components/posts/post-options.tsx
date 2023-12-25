@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 import { deletePost } from '@/actions/post'
 
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog'
-import SubmitButton from '../submit-button'
+import { SubmitButton } from '../submit-button'
 
 type PostOptionsProps = {
   post: PostWithExtras

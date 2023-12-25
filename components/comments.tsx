@@ -57,7 +57,7 @@ export const Comments = ({ postId, comments, user }: CommentsProps) => {
     <div className="space-y-0.5 px-3 sm:px-0">
       {commentCount > 1 && (
         <Link
-          href={`/dashboard/${postId}`}
+          href={`/dashboard/p/${postId}`}
           scroll={false}
           className="text-sm font-medium text-neutral-500"
         >

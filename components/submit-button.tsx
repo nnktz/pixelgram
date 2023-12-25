@@ -6,7 +6,7 @@ type Props = ButtonProps & {
   children: React.ReactNode
 }
 
-const SubmitButton = ({ children, ...props }: Props) => {
+export const SubmitButton = ({ children, ...props }: Props) => {
   const { pending } = useFormStatus()
 
   return (
@@ -15,5 +15,3 @@ const SubmitButton = ({ children, ...props }: Props) => {
     </button>
   )
 }
-
-export default SubmitButton
