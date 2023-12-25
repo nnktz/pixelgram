@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation'
 import {
   bookmarkSchema,
   createPost as createPostSchema,
+  updatePost as updatePostSchema,
   deletePost as deletePostSchema,
   likeSchema,
 } from '@/lib/schemas'
@@ -216,4 +217,47 @@ export const bookmarkPost = async (value: FormDataEntryValue | null) => {
   } catch (error) {
     return { message: 'Error. Failed to bookmark post' }
   }
+}
+
+export const updatePost = async (values: z.infer<typeof updatePostSchema>) => {
+  const userId = await getUserId()
+
+  const validatedFields = updatePostSchema.safeParse(values)
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing fields. Failed to update post',
+    }
+  }
+
+  const { id, fileUrl, caption } = validatedFields.data
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id,
+      userId,
+    },
+  })
+
+  if (!post) {
+    throw new Error('Post not found')
+  }
+
+  try {
+    await prisma.post.update({
+      where: {
+        id,
+      },
+      data: {
+        fileUrl,
+        caption,
+      },
+    })
+  } catch (error) {
+    return { message: 'Error. Failed to update post' }
+  }
+
+  revalidatePath('/dashboard')
+  redirect('/dashboard')
 }

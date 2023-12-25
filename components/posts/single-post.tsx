@@ -1,10 +1,12 @@
+import Link from 'next/link'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+
 import { auth } from '@/configs/auth'
 import { fetchPostById } from '@/lib/post-service'
-import { notFound } from 'next/navigation'
+
 import { Card } from '../ui/card'
-import Image from 'next/image'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
-import Link from 'next/link'
 import { UserAvatar } from '../user-avatar'
 import { PostOptions } from './post-options'
 import { ScrollArea } from '../ui/scroll-area'
