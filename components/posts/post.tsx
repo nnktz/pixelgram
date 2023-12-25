@@ -1,3 +1,6 @@
+import Image from 'next/image'
+import Link from 'next/link'
+
 import { auth } from '@/configs/auth'
 import { PostWithExtras } from '@/lib/definitions'
 
@@ -5,8 +8,6 @@ import { UserAvatar } from '../user-avatar'
 import { Timestamp } from '../timestamp'
 import { PostOptions } from './post-options'
 import { Card } from '../ui/card'
-import Image from 'next/image'
-import Link from 'next/link'
 import { PostActions } from './post-actions'
 
 export const Post = async ({ post }: { post: PostWithExtras }) => {

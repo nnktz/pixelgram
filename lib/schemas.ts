@@ -10,4 +10,8 @@ const createPost = postSchema.omit({ id: true })
 const updatePost = postSchema
 const deletePost = postSchema.pick({ id: true })
 
-export { createPost, updatePost, deletePost, postSchema }
+const likeSchema = z.object({
+  postId: z.string(),
+})
+
+export { createPost, updatePost, deletePost, postSchema, likeSchema }

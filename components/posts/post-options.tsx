@@ -35,7 +35,7 @@ export const PostOptions = ({ post, userId, className }: PostOptionsProps) => {
             }}
             className="postOption"
           >
-            <input type="hidden" name="id" value={post.id} disabled readOnly />
+            <input type="hidden" name="id" value={post.id} readOnly />
             <SubmitButton className="w-full p-3 font-bold text-red-500 disabled:cursor-not-allowed">
               Delete post
             </SubmitButton>

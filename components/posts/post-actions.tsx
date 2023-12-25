@@ -15,7 +15,7 @@ type PostActionsProps = {
 export const PostActions = ({ post, userId, className }: PostActionsProps) => {
   return (
     <div className={cn('relative flex w-full items-center gap-x-2', className)}>
-      {/* <LikeButton post={post} userId={userId} /> */}
+      <LikeButton post={post} userId={userId} />
 
       {/* <Link href={`/dashboard/p/${post.id}`}>
         <ActionIcon>
