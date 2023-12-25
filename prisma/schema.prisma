@@ -54,21 +54,92 @@ model Session {
 }
 
 model User {
-  id String @id @default(cuid())
-  name String?
-  username String? @unique
-  bio String?
-  websiteUrl String?
-  gender String?
-  email String? @unique
+  id            String    @id @default(cuid())
+  name          String?
+  username      String?   @unique
+  bio           String?
+  websiteUrl    String?
+  gender        String?
+  email         String?   @unique
   emailVerified DateTime?
-  image String?
+  image         String?
 
-  accounts Account[]
-  sessions Session[]
+  accounts      Account[]
+  sessions      Session[]
+  posts         Post[]
+  saved         SavedPost[]
+  likes         Like[]
+  comments      Comment[]
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 
   @@map(name: "users")
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  caption     String?
+  fileUrl     String    @unique
+  
+  userId      String    @map("user_id")
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  savedBy  SavedPost[]
+  likes       Like[]
+  comments    Comment[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model SavedPost {
+  id        String    @id @default(cuid())
+
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+model Like {
+  id        String    @id @default(cuid())
+
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([postId, userId])
+  @@unique([userId])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  body      String
+
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([postId])
+  @@index([userId])
 }
