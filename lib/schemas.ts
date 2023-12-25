@@ -14,4 +14,8 @@ const likeSchema = z.object({
   postId: z.string(),
 })
 
-export { createPost, updatePost, deletePost, postSchema, likeSchema }
+const bookmarkSchema = z.object({
+  postId: z.string(),
+})
+
+export { createPost, updatePost, deletePost, postSchema, likeSchema, bookmarkSchema }

@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import {
+  bookmarkSchema,
   createPost as createPostSchema,
   deletePost as deletePostSchema,
   likeSchema,
@@ -146,5 +147,73 @@ export const likePost = async (value: FormDataEntryValue | null) => {
     return { message: 'Liked post successfully' }
   } catch (error) {
     return { message: 'Error. Failed to like post' }
+  }
+}
+
+export const bookmarkPost = async (value: FormDataEntryValue | null) => {
+  const userId = await getUserId()
+
+  const validatedFields = bookmarkSchema.safeParse({ postId: value })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing fields. Failed to bookmark post',
+    }
+  }
+
+  const { postId } = validatedFields.data
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  })
+
+  if (!post) {
+    throw new Error('Post not found')
+  }
+
+  const bookmark = await prisma.savedPost.findUnique({
+    where: {
+      postId_userId: {
+        postId,
+        userId,
+      },
+    },
+  })
+
+  if (bookmark) {
+    try {
+      await prisma.savedPost.delete({
+        where: {
+          postId_userId: {
+            postId,
+            userId,
+          },
+        },
+      })
+
+      revalidatePath('/dashboard')
+
+      return { message: 'Unbookmarked post successfully' }
+    } catch (error) {
+      return { message: 'Error. Failed to unbookmark post' }
+    }
+  }
+
+  try {
+    await prisma.savedPost.create({
+      data: {
+        postId,
+        userId,
+      },
+    })
+
+    revalidatePath('/dashboard')
+
+    return { message: 'Bookmarked post successfully' }
+  } catch (error) {
+    return { message: 'Error. Failed to bookmark post' }
   }
 }
