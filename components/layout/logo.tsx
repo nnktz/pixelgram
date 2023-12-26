@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { SwitchCamera } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import { calSans } from '@/lib/font'
 
 import { buttonVariants } from '../ui/button'
 
@@ -16,7 +17,7 @@ export const Logo = () => {
       })}
     >
       <SwitchCamera className="h-6 w-6 shrink-0 lg:hidden" />
-      <p className={cn('hidden text-xl font-semibold lg:block')}>Pixelgram</p>
+      <p className={cn('hidden text-xl font-semibold lg:block', calSans.className)}>Pixelgram</p>
     </Link>
   )
 }

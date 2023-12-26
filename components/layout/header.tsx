@@ -1,13 +1,16 @@
 import Link from 'next/link'
 import { Heart, Search } from 'lucide-react'
 
+import { calSans } from '@/lib/font'
+import { cn } from '@/lib/utils'
+
 import { Button } from '../ui/button'
 
 export const Header = () => {
   return (
     <header className="fixed top-0 z-50 flex w-full items-center justify-between border-b border-zinc-300 bg-white px-3 py-2 sm:-ml-6 md:hidden dark:border-neutral-700 dark:bg-neutral-950">
       <Link href={'/dashboard'}>
-        <p className="text-xl font-semibold">Pixelgram</p>
+        <p className={cn('text-xl font-semibold', calSans.className)}>Pixelgram</p>
       </Link>
 
       <div className="flex items-center space-x-2">
