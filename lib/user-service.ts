@@ -1,12 +1,48 @@
-import { auth } from '@/configs/auth'
+import { unstable_noStore as noStore } from 'next/cache'
+import prisma from './prisma'
 
-export const getUserId = async () => {
-  const session = await auth()
-  const userId = session?.user?.id
+export const fetchProfile = async (username: string) => {
+  noStore()
 
-  if (!userId) {
-    throw new Error('Unauthenticated')
-  }
+  try {
+    const profile = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+      include: {
+        posts: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        saved: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        followedBy: {
+          include: {
+            follower: {
+              include: {
+                followedBy: true,
+                following: true,
+              },
+            },
+          },
+        },
+        following: {
+          include: {
+            following: {
+              include: {
+                followedBy: true,
+                following: true,
+              },
+            },
+          },
+        },
+      },
+    })
 
-  return userId
+    return profile
+  } catch (error) {}
 }

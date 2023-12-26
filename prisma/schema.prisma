@@ -70,6 +70,8 @@ model User {
   saved         SavedPost[]
   likes         Like[]
   comments      Comment[]
+  followedBy    Follows[] @relation("following")
+  following     Follows[] @relation("follower")
 
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
@@ -142,4 +144,16 @@ model Comment {
 
   @@index([postId])
   @@index([userId])
+}
+
+model Follows {
+  followerId String
+  follower User @relation("follower", fields: [followerId], references: [id])
+
+  followingId String
+  following User @relation("following", fields: [followingId], references: [id])
+
+  @@id([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
 }

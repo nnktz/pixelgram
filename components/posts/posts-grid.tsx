@@ -14,7 +14,7 @@ export const PostsGrid = ({ posts }: { posts: PostWithExtras[] | undefined }) =>
   }
 
   return (
-    <div className="grid grid-cols-3 gap-0.5">
+    <div className="grid grid-cols-3 gap-0.5 px-4 md:px-0">
       {posts.map((post) => (
         <Link
           key={post.id}

@@ -11,7 +11,7 @@ import {
   deletePost as deletePostSchema,
   likeSchema,
 } from '@/lib/schemas'
-import { getUserId } from '@/lib/user-service'
+import { getUserId } from '@/lib/auth-service'
 import prisma from '@/lib/prisma'
 
 export const createPost = async (values: z.infer<typeof createPostSchema>) => {

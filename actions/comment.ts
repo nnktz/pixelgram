@@ -7,7 +7,7 @@ import {
   createComment as createCommentSchema,
   deleteComment as deleteCommentSchema,
 } from '@/lib/schemas'
-import { getUserId } from '@/lib/user-service'
+import { getUserId } from '@/lib/auth-service'
 import prisma from '@/lib/prisma'
 
 export const createComment = async (values: z.infer<typeof createCommentSchema>) => {
